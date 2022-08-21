@@ -6,6 +6,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+/*
+    EmployeePayrollRepository class for DB management
+ */
 @Repository
 public interface EmployeePayrollRepository extends JpaRepository<EmployeePayroll,Integer> 
 {

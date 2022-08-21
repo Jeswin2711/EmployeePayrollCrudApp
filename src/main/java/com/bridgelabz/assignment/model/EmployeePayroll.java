@@ -9,6 +9,10 @@ import java.util.Date;
 
 
 
+/*
+A Model for Employee Payroll
+ */
+
 @Getter
 @Setter
 @Entity

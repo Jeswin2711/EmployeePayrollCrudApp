@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 
+/*
+A DTO class for the Details to be Displayed to the Client
+ */
 @Getter
 @Setter
 public class EmployeePayrollDto

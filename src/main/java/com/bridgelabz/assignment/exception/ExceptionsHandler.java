@@ -8,6 +8,10 @@ import org.springframework.web.context.request.WebRequest;
 
 import java.util.Date;
 
+
+/*
+ExceptionsHandler class is used to handle Exceptions
+ */
 @ControllerAdvice
 public class ExceptionsHandler
     {

@@ -7,6 +7,9 @@ import org.mapstruct.Mapper;
 
 import java.util.List;
 
+/*
+Employee Payroll Mapper Interface that annotate @Mapper Annotation that provide auto implementation of the functions declared
+ */
 @Mapper(componentModel = "spring")
 public interface EmployeePayrollMapper
 {
