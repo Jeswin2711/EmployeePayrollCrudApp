@@ -52,13 +52,13 @@ public class EmployeePayrollService
         return employeePayrollRepository.saveAll(employeeMapper.dtoToModels(productDtos));
     }
 
-    public String deletePayrollById(int id) {
+    public Response deletePayrollById(int id) {
         employeePayrollRepository.deleteById(id);
-        return "Employee Deleted Successfully";
+        return Utility.getResponse("Employee Payroll Deleted Successfully",HttpStatus.OK);
     }
 
 
-    public String updateEmployeePayroll(@RequestBody EmployeePayrollDto employeePayrollDto,int id)
+    public Response updateEmployeePayroll(@RequestBody EmployeePayrollDto employeePayrollDto,int id)
     {
         EmployeePayroll oldData = null;
         Optional<EmployeePayroll> optional = Optional.ofNullable(employeePayrollRepository.findById(id).orElseThrow(() -> new PayrollException("User with ID :" + id + " Cannot Be Updated Because It's not Present in the Payroll List")));
@@ -69,6 +69,6 @@ public class EmployeePayrollService
                     }
             );
             employeePayrollRepository.save(employeeMapper.dtoToModel(employeePayrollDto));
-            return "Updated Successfully";
+            return Utility.getResponse("Employee Payroll Updated Successfully" , HttpStatus.OK.value());
     }
 }

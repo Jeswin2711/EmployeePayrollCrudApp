@@ -2,7 +2,6 @@ package com.bridgelabz.assignment.controller;
 
 
 import com.bridgelabz.assignment.dto.EmployeePayrollDto;
-import com.bridgelabz.assignment.model.EmployeePayroll;
 import com.bridgelabz.assignment.service.EmployeePayrollService;
 import com.bridgelabz.assignment.utility.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,9 +60,9 @@ public class EmployeePayrollController
     Function to delete the Employee payroll from Repository by Calling Service
      */
     @DeleteMapping("/delete/{id}")
-    public String deleteEmployeePayroll(@PathVariable int id)
+    public void deleteEmployeePayroll(@PathVariable int id)
     {
-        return employeeService.deletePayrollById(id);
+        employeeService.deletePayrollById(id);
     }
 
     /*
@@ -71,7 +70,7 @@ public class EmployeePayrollController
      */
 
     @PutMapping("/update/{id}")
-    public String updateEmployeePayroll(@PathVariable int id, @RequestBody EmployeePayrollDto employeePayrollDto)
+    public Response updateEmployeePayroll(@PathVariable int id, @RequestBody EmployeePayrollDto employeePayrollDto)
     {
         return employeeService.updateEmployeePayroll(employeePayrollDto,id);
     }
