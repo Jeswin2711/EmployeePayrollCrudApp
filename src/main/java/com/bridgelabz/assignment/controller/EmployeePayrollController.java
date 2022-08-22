@@ -73,7 +73,6 @@ public class EmployeePayrollController
     @PutMapping("/update/{id}")
     public String updateEmployeePayroll(@PathVariable int id, @RequestBody EmployeePayrollDto employeePayrollDto)
     {
-        employeeService.updateEmployeePayroll(employeePayrollDto,id);
-        return "Updated Successfully";
+        return employeeService.updateEmployeePayroll(employeePayrollDto,id);
     }
 }

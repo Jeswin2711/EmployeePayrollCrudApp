@@ -6,6 +6,7 @@ import com.bridgelabz.assignment.mapper.EmployeePayrollMapper;
 import com.bridgelabz.assignment.model.EmployeePayroll;
 import com.bridgelabz.assignment.repository.EmployeePayrollRepository;
 import com.bridgelabz.assignment.utility.Response;
+import com.bridgelabz.assignment.utility.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -32,7 +33,7 @@ public class EmployeePayrollService
             throw new PayrollException("Employee Payroll Email is Already Present ");
         });
         employeePayrollRepository.save(employeeMapper.dtoToModel(employeePayrollDto));
-        return new Response("Employee Payroll Added", HttpStatus.OK);
+        return Utility.getResponse("Employee Payroll Added", HttpStatus.OK);
     }
 
     public EmployeePayrollDto getPayrollById(int id)
@@ -57,18 +58,17 @@ public class EmployeePayrollService
     }
 
 
-    public EmployeePayroll updateEmployeePayroll(@RequestBody EmployeePayrollDto employeePayrollDto,int id)
+    public String updateEmployeePayroll(@RequestBody EmployeePayrollDto employeePayrollDto,int id)
     {
         EmployeePayroll oldData = null;
-        Optional<EmployeePayroll> optional = Optional.ofNullable(employeePayrollRepository.findById(id).orElseThrow(() -> new PayrollException("User with ID" + id + " Cannot Be Updated Because It's not Present in the Payroll List")));
+        Optional<EmployeePayroll> optional = Optional.ofNullable(employeePayrollRepository.findById(id).orElseThrow(() -> new PayrollException("User with ID :" + id + " Cannot Be Updated Because It's not Present in the Payroll List")));
         if (optional.isPresent())
-            oldData = optional.get();
-            oldData.setGender(employeePayrollDto.getGender());
-            oldData.setDepartment(employeePayrollDto.getDepartment());
-            oldData.setAddress(employeePayrollDto.getAddress());
-            oldData.setSalary(employeePayrollDto.getSalary());
-            oldData.setName(employeePayrollDto.getName());
-            oldData.setPhoneNumber(employeePayrollDto.getPhoneNumber());
-            return employeePayrollRepository.save(oldData);
+            employeePayrollRepository.findByEmail(employeePayrollDto.getEmail()).ifPresent(
+                    employeePayroll -> {
+                        throw new PayrollException("User with Email ID exists");
+                    }
+            );
+            employeePayrollRepository.save(employeeMapper.dtoToModel(employeePayrollDto));
+            return "Updated Successfully";
     }
 }
