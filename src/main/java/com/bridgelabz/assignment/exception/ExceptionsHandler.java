@@ -15,9 +15,8 @@ ExceptionsHandler class is used to handle Exceptions
 @ControllerAdvice
 public class ExceptionsHandler
     {
-
         @ExceptionHandler(PayrollException.class)
-        public ResponseEntity<ExceptionDetails> userExceptionHandler(PayrollException ex, WebRequest request) {
+        public ResponseEntity<ExceptionDetails> userExceptionHandler(PayrollException ex) {
             ExceptionDetails message = new ExceptionDetails(
                     new Date(),
                     ex.getMessage(),

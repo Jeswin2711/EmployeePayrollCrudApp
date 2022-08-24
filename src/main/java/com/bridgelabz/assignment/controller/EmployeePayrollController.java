@@ -22,6 +22,14 @@ public class EmployeePayrollController
     /*
     Function to save the employeepayroll to Repository by Calling Service
      */
+
+
+    @GetMapping
+    public String welcomeMessage()
+    {
+        return "Welcome to Employee Payroll Program";
+    }
+
     @PostMapping("/save")
     public Response save(@RequestBody EmployeePayrollDto employeePayrollDto)
     {
@@ -60,9 +68,9 @@ public class EmployeePayrollController
     Function to delete the Employee payroll from Repository by Calling Service
      */
     @DeleteMapping("/delete/{id}")
-    public void deleteEmployeePayroll(@PathVariable int id)
+    public Response deleteEmployeePayroll(@PathVariable int id)
     {
-        employeeService.deletePayrollById(id);
+        return employeeService.deletePayrollById(id);
     }
 
     /*

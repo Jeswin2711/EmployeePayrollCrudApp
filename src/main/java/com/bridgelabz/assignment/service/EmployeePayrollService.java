@@ -60,15 +60,15 @@ public class EmployeePayrollService
 
     public Response updateEmployeePayroll(@RequestBody EmployeePayrollDto employeePayrollDto,int id)
     {
-        EmployeePayroll oldData = null;
+        EmployeePayrollDto oldData = null;
         Optional<EmployeePayroll> optional = Optional.ofNullable(employeePayrollRepository.findById(id).orElseThrow(() -> new PayrollException("User with ID :" + id + " Cannot Be Updated Because It's not Present in the Payroll List")));
         if (optional.isPresent())
+            employeePayrollRepository.save(employeeMapper.dtoToModel(employeeMapper.modelToDto(optional.get())));
             employeePayrollRepository.findByEmail(employeePayrollDto.getEmail()).ifPresent(
                     employeePayroll -> {
                         throw new PayrollException("User with Email ID exists");
                     }
             );
-            employeePayrollRepository.save(employeeMapper.dtoToModel(employeePayrollDto));
             return Utility.getResponse("Employee Payroll Updated Successfully" , HttpStatus.OK.value());
     }
 }
