@@ -1,13 +1,11 @@
 package com.bridgelabz.assignment.utils.filter;
 
 import com.bridgelabz.assignment.security.MyUserDetails;
-import com.bridgelabz.assignment.utils.JwtUtils;
+import com.bridgelabz.assignment.utils.JwtService.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -43,7 +41,7 @@ public class JwtFilters extends OncePerRequestFilter {
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            UserDetails userDetails = this.myUserDetails.loadUserByUsername(username);
+            UserDetails userDetails = myUserDetails.loadUserByUsername(username);
 
             if (jwtToken.validateToken(jwt, userDetails)) {
 

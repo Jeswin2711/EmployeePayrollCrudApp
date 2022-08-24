@@ -1,4 +1,4 @@
-package com.bridgelabz.assignment.utils;
+package com.bridgelabz.assignment.utils.JwtService;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

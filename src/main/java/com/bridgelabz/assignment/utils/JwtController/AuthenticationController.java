@@ -1,8 +1,9 @@
-package com.bridgelabz.assignment.utils;
+package com.bridgelabz.assignment.utils.JwtController;
 
 
 import com.bridgelabz.assignment.utils.Jwt.AuthorizationRequest;
 import com.bridgelabz.assignment.utils.Jwt.AuthorizationResponse;
+import com.bridgelabz.assignment.utils.JwtService.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
