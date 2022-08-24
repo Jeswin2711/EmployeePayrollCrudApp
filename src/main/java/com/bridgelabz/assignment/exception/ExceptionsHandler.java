@@ -8,22 +8,25 @@ import org.springframework.web.context.request.WebRequest;
 
 import java.util.Date;
 
+/*
+ExceptionsHandler class is used to handle Exceptions
+ */
+
 @ControllerAdvice
 public class ExceptionsHandler
     {
-
         @ExceptionHandler(PayrollException.class)
-        public ResponseEntity<ExceptionDetails> userExceptionHandler(PayrollException ex, WebRequest request) {
+        public ResponseEntity<ExceptionDetails> userExceptionHandler(PayrollException ex) {
             ExceptionDetails message = new ExceptionDetails(
                     new Date(),
                     ex.getMessage(),
                     HttpStatus.NOT_FOUND.value());
-            return new ResponseEntity<ExceptionDetails>(message, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
         }
 
 
         @ExceptionHandler(Exception.class)
-        public ResponseEntity<?> handlePayrollNotFoundException(Exception e) {
+        public ResponseEntity<ExceptionDetails> handlePayrollNotFoundException(Exception e) {
             ExceptionDetails exception = new ExceptionDetails(new Date(), e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR.value());
             return new ResponseEntity<>(exception, HttpStatus.INTERNAL_SERVER_ERROR);
         }

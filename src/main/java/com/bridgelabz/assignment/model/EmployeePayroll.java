@@ -1,6 +1,7 @@
 package com.bridgelabz.assignment.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,6 +9,10 @@ import javax.persistence.*;
 import java.util.Date;
 
 
+
+/*
+A Model for Employee Payroll
+ */
 
 @Getter
 @Setter

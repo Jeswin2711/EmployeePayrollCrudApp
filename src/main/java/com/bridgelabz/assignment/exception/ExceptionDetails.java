@@ -5,6 +5,9 @@ import lombok.Data;
 
 import java.util.Date;
 
+/*
+An Exception Model
+ */
 @Data
 @AllArgsConstructor
 public class ExceptionDetails
