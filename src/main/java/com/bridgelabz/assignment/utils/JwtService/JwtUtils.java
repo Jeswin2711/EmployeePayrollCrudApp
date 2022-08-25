@@ -3,18 +3,23 @@ package com.bridgelabz.assignment.utils.JwtService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+
+/*
+    A service class for Jwt which contains the important function to create a valid jwt token and other operations
+ */
 @Service
 public class JwtUtils {
 
-    private String SECRET_KEY = "jeswin2711";
+    @Value("${SECRET_KEY}")
+    private String SECRET_KEY;
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);

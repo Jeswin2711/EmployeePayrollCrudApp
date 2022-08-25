@@ -11,6 +11,9 @@ Response Model
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+/*
+ A Model for Response
+ */
 public class Response
 {
     private String message;

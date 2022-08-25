@@ -8,6 +8,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
+/*
+    MyUserDetails implementing the Interface UserDetailsService
+    which helps us to Configure the User Details
+ */
 @Service
 public class MyUserDetails implements UserDetailsService {
     @Override

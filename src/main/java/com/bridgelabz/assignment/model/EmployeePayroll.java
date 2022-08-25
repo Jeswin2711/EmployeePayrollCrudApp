@@ -51,5 +51,6 @@ public class EmployeePayroll
     private int netPay;
     @Column(name = "Gender")
     private Character gender;
+    @Column(name = "Email")
     private String email;
 }

@@ -16,6 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+
+/*
+    A controller for Jwt
+ */
 @RestController
 public class AuthenticationController
 {
@@ -29,6 +33,9 @@ public class AuthenticationController
     @Autowired
     private JwtUtils jwt;
 
+    /*
+        this endpoint helps us to return the token by Username and Password
+     */
     @RequestMapping(value = "/authenticate",method = RequestMethod.POST)
     public ResponseEntity<?> createAuthentication(@RequestBody AuthorizationRequest authorizationRequest) throws Exception {
         try {

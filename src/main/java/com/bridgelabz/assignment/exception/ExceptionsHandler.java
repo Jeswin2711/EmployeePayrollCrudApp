@@ -21,6 +21,9 @@ ExceptionsHandler class is used to handle Exceptions
 @ControllerAdvice
 public class ExceptionsHandler
     {
+        /*
+        To Handle Exception for Custom Exception
+         */
 
         @ExceptionHandler(PayrollException.class)
         public ResponseEntity<ExceptionDetails> userExceptionHandler(PayrollException ex) {
@@ -31,6 +34,9 @@ public class ExceptionsHandler
             return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
         }
 
+        /*
+        Handling Global Exception
+         */
 
         @ExceptionHandler(Exception.class)
         public ResponseEntity<ExceptionDetails> handlePayrollNotFoundException(Exception e) {

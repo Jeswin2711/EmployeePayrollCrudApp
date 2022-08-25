@@ -40,21 +40,7 @@ public class EmployeePayrollController
     @PostMapping("/save")
     public ResponseEntity<Response> save(@Valid @RequestBody EmployeePayrollDto employeePayrollDto)
     {
-        employeeService.saveEmployee(employeePayrollDto);
-        Response response = new Response("Employee Payroll Saved" , HttpStatus.OK);
-        return new ResponseEntity<>(response,HttpStatus.OK);
-    }
-
-
-    /*
-    Function to Save a List of Employee Payroll
-     */
-    @PostMapping("/savelist")
-    public ResponseEntity<Response> saveAll(@Valid @RequestBody List<EmployeePayrollDto> employeePayrollDto)
-    {
-        employeeService.saveAll(employeePayrollDto);
-        Response response = new Response("Employee Payroll List Saved" , HttpStatus.OK);
-        return new ResponseEntity<>(response,HttpStatus.OK);
+        return new ResponseEntity<>(new Response("Employee Payroll Saved",employeeService.saveEmployee(employeePayrollDto)),HttpStatus.OK);
     }
 
 
@@ -62,20 +48,18 @@ public class EmployeePayrollController
     Function to get the employeepayroll by Id from Repository by Calling Service Class
      */
     @GetMapping("/get/{id}")
-    public ResponseEntity<EmployeePayrollDto> getEmployeePayroll(@PathVariable int id)
+    public ResponseEntity<Response> getEmployeePayroll(@PathVariable int id)
     {
-        EmployeePayrollDto getEmployeePayrollDto = employeeService.getPayrollById(id);
-        return new ResponseEntity<>(getEmployeePayrollDto,HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(new Response("The Data for " + id,employeeService.getPayrollById(id)),HttpStatus.OK);
     }
 
     /*
     Function to get the Employeepayroll list from Repository by Calling Service
      */
     @GetMapping("/getall")
-    public ResponseEntity<List<EmployeePayrollDto>> getAllEmployeePayroll()
+    public ResponseEntity<Response> getAllEmployeePayroll()
     {
-        List<EmployeePayrollDto> employeePayrollDtosList = employeeService.getAll();
-        return new ResponseEntity<>(employeePayrollDtosList,HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(new Response("Employee Payroll List",employeeService.getAll()),HttpStatus.OK);
     }
 
     /*
@@ -84,9 +68,7 @@ public class EmployeePayrollController
     @PostMapping("/savelist")
     public ResponseEntity<Response> saveList(@RequestBody List<EmployeePayrollDto> productDtos)
     {
-        employeeService.saveAll(productDtos);
-        Response response = new Response("Employee Payroll List Saved" , HttpStatus.OK);
-        return new ResponseEntity<>(response,HttpStatus.OK);
+        return new ResponseEntity<>(new Response("Employee List Saved",employeeService.saveAll(productDtos)),HttpStatus.OK);
     }
 
     /*
@@ -95,9 +77,7 @@ public class EmployeePayrollController
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Response> deleteEmployeePayroll(@PathVariable int id)
     {
-        employeeService.deletePayrollById(id);
-        Response response = new Response("Employee Payroll Deleted", HttpStatus.OK );
-        return new ResponseEntity<>(response,HttpStatus.OK);
+        return new ResponseEntity<>(new Response("Employee Payroll Deleted", employeeService.deletePayrollById(id)),HttpStatus.OK);
     }
 
     /*
@@ -107,8 +87,6 @@ public class EmployeePayrollController
     @PutMapping("/update/{id}")
     public ResponseEntity<Response> updateEmployeePayroll(@PathVariable int id, @RequestBody EmployeePayrollDto employeePayrollDto)
     {
-        employeeService.updateEmployeePayroll(employeePayrollDto,id);
-        Response response = new Response("Employee Payroll Updated for Id :"+id, HttpStatus.OK );
-        return new ResponseEntity<>(response,HttpStatus.OK);
+        return new ResponseEntity<>(new Response("Employee Payroll Updated for Id :"+id,employeeService.updateEmployeePayroll(employeePayrollDto,id)),HttpStatus.OK);
     }
 }

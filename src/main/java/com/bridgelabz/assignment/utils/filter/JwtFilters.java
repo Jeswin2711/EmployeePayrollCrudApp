@@ -16,6 +16,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/*
+    JwtFilters annotated wiht @Component which extend OncePerRequestFilter class
+    which helps us to get the token and to validate
+    and if the token is valid it permits the other api's
+ */
 
 @Component
 public class JwtFilters extends OncePerRequestFilter {
@@ -24,6 +29,9 @@ public class JwtFilters extends OncePerRequestFilter {
     @Autowired
     private JwtUtils jwtToken;
 
+    /*
+        An overrride class which helps us to do the validation operation
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {

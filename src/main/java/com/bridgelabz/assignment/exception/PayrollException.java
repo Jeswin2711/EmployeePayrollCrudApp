@@ -1,7 +1,7 @@
 package com.bridgelabz.assignment.exception;
 
 /*
-An Custom Exception Class
+A Custom Exception Class
  */
 public class PayrollException extends RuntimeException
 {

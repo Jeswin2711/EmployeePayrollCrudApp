@@ -27,6 +27,9 @@ public class EmployeePayrollService
     @Autowired
     private EmployeePayrollMapper employeeMapper;
 
+    /*
+        To Save A Employee Payroll
+     */
     public Response saveEmployee(EmployeePayrollDto employeePayrollDto)
     {
         employeePayrollRepository.findByEmail(employeePayrollDto.getEmail()).ifPresent(employeePayroll -> {
@@ -36,28 +39,43 @@ public class EmployeePayrollService
         return Utility.getResponse("Employee Payroll Added", HttpStatus.OK);
     }
 
+    /*
+        To Get A Employee Payroll
+     */
     public EmployeePayrollDto getPayrollById(int id)
     {
         return employeeMapper.modelToDto(employeePayrollRepository.findById(id)
                 .orElseThrow(() -> new PayrollException("Employee Payroll Not Found for ID :" + id)));
     }
 
+    /*
+        To Get List of Employee Payroll in Repository
+     */
 
     public List<EmployeePayrollDto> getAll() {
         return employeeMapper.modelsToDtos(employeePayrollRepository.findAll());
     }
 
-    public List<EmployeePayroll> saveAll(List<EmployeePayrollDto> productDtos)
+
+    /*
+        To Save a List of Employee Payroll in Repository
+     */
+    public List<EmployeePayroll> saveAll(List<EmployeePayrollDto> employeePayrollDtos)
     {
-        return employeePayrollRepository.saveAll(employeeMapper.dtoToModels(productDtos));
+        return employeePayrollRepository.saveAll(employeeMapper.dtoToModels(employeePayrollDtos));
     }
 
+    /*
+        To Delete A Employee Payroll in the Repository
+     */
     public Response deletePayrollById(int id) {
         employeePayrollRepository.deleteById(id);
         return Utility.getResponse("Employee Payroll Deleted Successfully",HttpStatus.OK);
     }
 
-
+    /*
+        To Update A Employee Payroll
+     */
     public Response updateEmployeePayroll(@RequestBody EmployeePayrollDto employeePayrollDto,int id)
     {
         EmployeePayrollDto oldData = null;
