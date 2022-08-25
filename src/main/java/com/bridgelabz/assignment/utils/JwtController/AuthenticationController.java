@@ -1,6 +1,7 @@
 package com.bridgelabz.assignment.utils.JwtController;
 
 
+import com.bridgelabz.assignment.security.MyUserDetails;
 import com.bridgelabz.assignment.utils.Jwt.AuthorizationRequest;
 import com.bridgelabz.assignment.utils.Jwt.AuthorizationResponse;
 import com.bridgelabz.assignment.utils.JwtService.JwtUtils;
@@ -28,7 +29,7 @@ public class AuthenticationController
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    private MyUserDetails userDetailsService;
 
     @Autowired
     private JwtUtils jwt;
@@ -37,7 +38,7 @@ public class AuthenticationController
         this endpoint helps us to return the token by Username and Password
      */
     @RequestMapping(value = "/authenticate",method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthentication(@RequestBody AuthorizationRequest authorizationRequest) throws Exception {
+    public ResponseEntity<AuthorizationResponse> createAuthentication(@RequestBody AuthorizationRequest authorizationRequest) throws Exception {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                     authorizationRequest.getUserName(),
@@ -49,7 +50,7 @@ public class AuthenticationController
             throw new Exception("Invalid Credentials");
         }
 
-        UserDetails userDetails =userDetailsService.loadUserByUsername(
+        UserDetails userDetails = userDetailsService.loadUserByUsername(
                 authorizationRequest.getUserName()
         );
 
