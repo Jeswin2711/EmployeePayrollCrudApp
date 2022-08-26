@@ -1,7 +1,7 @@
 package com.bridgelabz.assignment.service;
 
 import com.bridgelabz.assignment.dto.EmployeePayrollDto;
-import com.bridgelabz.assignment.exception.PayrollException;
+import com.bridgelabz.assignment.exception.CustomException;
 import com.bridgelabz.assignment.mapper.EmployeePayrollMapper;
 import com.bridgelabz.assignment.model.EmployeePayroll;
 import com.bridgelabz.assignment.repository.EmployeePayrollRepository;
@@ -33,7 +33,7 @@ public class EmployeePayrollService
     public Response saveEmployee(EmployeePayrollDto employeePayrollDto)
     {
         employeePayrollRepository.findByEmail(employeePayrollDto.getEmail()).ifPresent(employeePayroll -> {
-            throw new PayrollException("Employee Payroll Email is Already Present ");
+            throw new CustomException("Employee Payroll Email is Already Present ");
         });
         employeePayrollRepository.save(employeeMapper.dtoToModel(employeePayrollDto));
         return Utility.getResponse("Employee Payroll Added", HttpStatus.OK);
@@ -45,7 +45,7 @@ public class EmployeePayrollService
     public EmployeePayrollDto getPayrollById(int id)
     {
         return employeeMapper.modelToDto(employeePayrollRepository.findById(id)
-                .orElseThrow(() -> new PayrollException("Employee Payroll Not Found for ID :" + id)));
+                .orElseThrow(() -> new CustomException("Employee Payroll Not Found for ID :" + id)));
     }
 
     /*
@@ -79,12 +79,12 @@ public class EmployeePayrollService
     public Response updateEmployeePayroll(@RequestBody EmployeePayrollDto employeePayrollDto,int id)
     {
         EmployeePayrollDto oldData = null;
-        Optional<EmployeePayroll> optional = Optional.ofNullable(employeePayrollRepository.findById(id).orElseThrow(() -> new PayrollException("User with ID :" + id + " Cannot Be Updated Because It's not Present in the Payroll List")));
+        Optional<EmployeePayroll> optional = Optional.ofNullable(employeePayrollRepository.findById(id).orElseThrow(() -> new CustomException("User with ID :" + id + " Cannot Be Updated Because It's not Present in the Payroll List")));
         if (optional.isPresent())
             employeePayrollRepository.save(employeeMapper.dtoToModel(employeeMapper.modelToDto(optional.get())));
             employeePayrollRepository.findByEmail(employeePayrollDto.getEmail()).ifPresent(
                     employeePayroll -> {
-                        throw new PayrollException("User with Email ID exists");
+                        throw new CustomException("User with Email ID exists");
                     }
             );
             return Utility.getResponse("Employee Payroll Updated Successfully" , HttpStatus.OK.value());

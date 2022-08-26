@@ -1,6 +1,6 @@
-package com.bridgelabz.assignment.security;
+package com.bridgelabz.assignment.AdminSecurity;
 
-import com.bridgelabz.assignment.utils.filter.JwtFilters;
+import com.bridgelabz.assignment.AdminJwt.filter.JwtFilters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,6 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private JwtFilters jwtFilters;
 
+
     @Override
     @Bean
     protected AuthenticationManager authenticationManager() throws Exception {
@@ -45,9 +46,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeRequests().antMatchers("/authenticate")
+        http.csrf().disable().authorizeRequests().antMatchers("/admin/authenticate")
                 .permitAll().anyRequest().authenticated()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jwtFilters, UsernamePasswordAuthenticationFilter.class);
+
     }
+
 }

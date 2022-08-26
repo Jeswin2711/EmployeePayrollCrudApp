@@ -25,8 +25,8 @@ public class ExceptionsHandler
         To Handle Exception for Custom Exception
          */
 
-        @ExceptionHandler(PayrollException.class)
-        public ResponseEntity<ExceptionDetails> userExceptionHandler(PayrollException ex) {
+        @ExceptionHandler(CustomException.class)
+        public ResponseEntity<ExceptionDetails> userExceptionHandler(CustomException ex) {
             ExceptionDetails message = new ExceptionDetails(
                     new Date(),
                     ex.getMessage(),

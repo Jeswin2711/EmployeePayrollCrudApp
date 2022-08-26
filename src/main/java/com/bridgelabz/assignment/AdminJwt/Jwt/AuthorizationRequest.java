@@ -1,4 +1,4 @@
-package com.bridgelabz.assignment.utils.Jwt;
+package com.bridgelabz.assignment.AdminJwt.Jwt;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

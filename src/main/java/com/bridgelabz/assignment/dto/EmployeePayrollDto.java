@@ -1,10 +1,7 @@
 package com.bridgelabz.assignment.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
@@ -19,6 +16,7 @@ A Dto Class
  */
 public class EmployeePayrollDto
 {
+
     @NotEmpty(message = "The Name Should not be Empty")
     private String name;
 
@@ -32,6 +30,7 @@ public class EmployeePayrollDto
 
     @NotEmpty
     @Email
+
     private String email;
 
     private String department;

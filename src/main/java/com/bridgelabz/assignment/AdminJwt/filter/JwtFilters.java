@@ -1,7 +1,7 @@
-package com.bridgelabz.assignment.utils.filter;
+package com.bridgelabz.assignment.AdminJwt.filter;
 
-import com.bridgelabz.assignment.security.MyUserDetails;
-import com.bridgelabz.assignment.utils.JwtService.JwtUtils;
+import com.bridgelabz.assignment.AdminSecurity.MyUserDetails;
+import com.bridgelabz.assignment.AdminJwt.JwtService.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /*
-    JwtFilters annotated wiht @Component which extend OncePerRequestFilter class
+    JwtFiltersEmployee annotated wiht @Component which extend OncePerRequestFilter class
     which helps us to get the token and to validate
     and if the token is valid it permits the other api's
  */

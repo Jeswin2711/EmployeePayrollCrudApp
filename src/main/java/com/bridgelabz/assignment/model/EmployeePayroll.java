@@ -1,17 +1,12 @@
 package com.bridgelabz.assignment.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import java.util.Date;
-
-
 
 /*
 A Model for Employee Payroll
@@ -21,12 +16,14 @@ A Model for Employee Payroll
 @Setter
 @Entity
 @Table(name = "Payroll")
+@ToString
 public class EmployeePayroll
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "emp_id")
     private int id;
-    @Column(name = "Name",nullable = false)
+    @Column(name = "Name")
     private String name;
     @Column(name = "Date")
     @JsonFormat(pattern = "yyyy/mm/dd")
@@ -53,4 +50,8 @@ public class EmployeePayroll
     private Character gender;
     @Column(name = "Email")
     private String email;
+    @Column(name = "UserName")
+    private String userName;
+    @Column(name = "PassWord")
+    private String passWord;
 }

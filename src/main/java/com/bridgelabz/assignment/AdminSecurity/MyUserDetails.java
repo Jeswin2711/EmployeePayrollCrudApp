@@ -1,7 +1,6 @@
-package com.bridgelabz.assignment.security;
+package com.bridgelabz.assignment.AdminSecurity;
 
-import com.bridgelabz.assignment.exception.PayrollException;
-import lombok.SneakyThrows;
+import com.bridgelabz.assignment.exception.CustomException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 
 /*
-    MyUserDetails implementing the Interface UserDetailsService
+    MyUserDetailsEmployee implementing the Interface UserDetailsService
     which helps us to Configure the User Details
  */
 @Service
@@ -30,7 +29,7 @@ public class MyUserDetails implements UserDetailsService {
         }
         else
         {
-            throw new PayrollException("Invalid Credentials");
+            throw new CustomException("Invalid Credentials");
         }
     }
 }

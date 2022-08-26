@@ -2,7 +2,11 @@ package com.bridgelabz.assignment.controller;
 
 
 import com.bridgelabz.assignment.dto.EmployeePayrollDto;
+import com.bridgelabz.assignment.exception.CustomException;
+import com.bridgelabz.assignment.model.Admin;
 import com.bridgelabz.assignment.model.EmployeePayroll;
+import com.bridgelabz.assignment.repository.AdminRepository;
+import com.bridgelabz.assignment.repository.EmployeePayrollRepository;
 import com.bridgelabz.assignment.service.EmployeePayrollService;
 import com.bridgelabz.assignment.utility.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +16,14 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 /*
 Controller Class
  */
 @RestController
-@RequestMapping("/employeepayroll")
-public class EmployeePayrollController
+@RequestMapping("/admin")
+public class AdminController
 {
     @Autowired
     private EmployeePayrollService employeeService;
@@ -26,24 +31,43 @@ public class EmployeePayrollController
     /*
     Function to save the employeepayroll to Repository by Calling Service
      */
-
+    @Autowired
+    private AdminRepository adminRepository;
+    @Autowired
+    private EmployeePayrollRepository repository;
 
     @GetMapping
     public String welcomeMessage()
     {
         return "Welcome to Employee Payroll Program";
     }
-
     /*
     Function to save a Single Employee Payroll
      */
-    @PostMapping("/save")
-    public ResponseEntity<Response> save(@Valid @RequestBody EmployeePayrollDto employeePayrollDto)
+    @PostMapping("/employeepayroll/save")
+    public ResponseEntity<Response> save(@Valid @RequestBody Admin admin)
     {
-        return new ResponseEntity<>(new Response("Employee Payroll Saved",employeeService.saveEmployee(employeePayrollDto)),HttpStatus.OK);
+        adminRepository.findByUserName(admin.getUserName()).ifPresent(
+                action -> {
+                    throw new CustomException("Admin Username Already Present Use /add/{userName}");
+                }
+        );
+        return new ResponseEntity<>(new Response("Employee Payroll Saved",adminRepository.save(admin)),HttpStatus.OK);
     }
 
-
+    @PostMapping("/employeepayroll/addList/{adminId}")
+    public void addList(@PathVariable int adminId , @RequestBody List<EmployeePayroll> employeePayroll)
+    {
+        adminRepository.findById(adminId)
+                .map(
+                        admin -> {
+                            admin.setId(adminId);
+                            admin.getEmployeePayrolls().addAll(employeePayroll);
+                            repository.saveAll(employeePayroll);
+                            return admin;
+                        }
+                ).orElseThrow(() -> {throw new CustomException("Admin Not Found");});
+    }
     /*
     Function to get the employeepayroll by Id from Repository by Calling Service Class
      */

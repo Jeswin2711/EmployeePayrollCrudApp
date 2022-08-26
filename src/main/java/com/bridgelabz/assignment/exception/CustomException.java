@@ -3,9 +3,9 @@ package com.bridgelabz.assignment.exception;
 /*
 A Custom Exception Class
  */
-public class PayrollException extends RuntimeException
+public class CustomException extends RuntimeException
 {
-    public PayrollException(String message)
+    public CustomException(String message)
     {
         super(message);
     }

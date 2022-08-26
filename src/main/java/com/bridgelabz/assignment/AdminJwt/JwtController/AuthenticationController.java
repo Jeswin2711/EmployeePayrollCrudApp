@@ -1,17 +1,17 @@
-package com.bridgelabz.assignment.utils.JwtController;
+package com.bridgelabz.assignment.AdminJwt.JwtController;
 
 
-import com.bridgelabz.assignment.security.MyUserDetails;
-import com.bridgelabz.assignment.utils.Jwt.AuthorizationRequest;
-import com.bridgelabz.assignment.utils.Jwt.AuthorizationResponse;
-import com.bridgelabz.assignment.utils.JwtService.JwtUtils;
+import com.bridgelabz.assignment.model.Admin;
+import com.bridgelabz.assignment.AdminSecurity.MyUserDetails;
+import com.bridgelabz.assignment.AdminJwt.Jwt.AuthorizationRequest;
+import com.bridgelabz.assignment.AdminJwt.Jwt.AuthorizationResponse;
+import com.bridgelabz.assignment.AdminJwt.JwtService.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -37,7 +37,7 @@ public class AuthenticationController
     /*
         this endpoint helps us to return the token by Username and Password
      */
-    @RequestMapping(value = "/authenticate",method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/authenticate",method = RequestMethod.POST)
     public ResponseEntity<AuthorizationResponse> createAuthentication(@RequestBody AuthorizationRequest authorizationRequest) throws Exception {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
@@ -55,6 +55,8 @@ public class AuthenticationController
         );
 
         String jwtToken = jwt.generateToken(userDetails);
+
+        new Admin(authorizationRequest.getUserName(), authorizationRequest.getPassWord());
 
         return ResponseEntity.ok(new AuthorizationResponse(jwtToken));
     }

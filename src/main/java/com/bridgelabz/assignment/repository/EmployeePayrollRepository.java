@@ -13,4 +13,6 @@ import java.util.Optional;
 public interface EmployeePayrollRepository extends JpaRepository<EmployeePayroll,Integer> 
 {
     Optional<EmployeePayroll> findByEmail(String email);
+
+    Optional<EmployeePayroll> findByPassWord(String passWord);
 }
