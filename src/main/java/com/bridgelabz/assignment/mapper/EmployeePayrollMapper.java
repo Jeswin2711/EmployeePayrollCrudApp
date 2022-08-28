@@ -1,8 +1,8 @@
 package com.bridgelabz.assignment.mapper;
 
 
-import com.bridgelabz.assignment.dto.EmployeePayrollDto;
-import com.bridgelabz.assignment.model.EmployeePayroll;
+import com.bridgelabz.assignment.employee.dto.EmployeePayrollDto;
+import com.bridgelabz.assignment.employee.model.EmployeePayroll;
 import org.mapstruct.Mapper;
 
 import java.util.List;

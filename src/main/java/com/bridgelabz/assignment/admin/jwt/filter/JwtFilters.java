@@ -1,13 +1,11 @@
-package com.bridgelabz.assignment.utils.filter;
+package com.bridgelabz.assignment.admin.jwt.filter;
 
-import com.bridgelabz.assignment.security.MyUserDetails;
-import com.bridgelabz.assignment.utils.JwtUtils;
+import com.bridgelabz.assignment.admin.jwt.jwtservice.JwtUtils;
+import com.bridgelabz.assignment.admin.security.AdminDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -18,14 +16,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/*
+    JwtFiltersEmployee annotated with @Component which extend OncePerRequestFilter class
+    which helps us to get the token and to validate
+    and if the token is valid it permits the other api's
+ */
 
 @Component
 public class JwtFilters extends OncePerRequestFilter {
     @Autowired
-    private MyUserDetails myUserDetails;
+    private AdminDetails adminDetails;
     @Autowired
     private JwtUtils jwtToken;
 
+    /*
+        An overrride class which helps us to do the validation operation
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
@@ -43,7 +49,7 @@ public class JwtFilters extends OncePerRequestFilter {
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            UserDetails userDetails = this.myUserDetails.loadUserByUsername(username);
+            UserDetails userDetails = adminDetails.loadUserByUsername(username);
 
             if (jwtToken.validateToken(jwt, userDetails)) {
 

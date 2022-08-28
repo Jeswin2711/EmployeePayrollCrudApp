@@ -10,6 +10,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
 @EnableSwagger2
+/*
+    Swagger Configuration class for Configuring Swagger
+ */
 public class SwaggerConfiguration
 {
     @Bean
