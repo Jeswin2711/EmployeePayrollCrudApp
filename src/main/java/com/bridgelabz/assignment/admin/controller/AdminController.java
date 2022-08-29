@@ -88,4 +88,11 @@ public class AdminController
         return new ResponseEntity<>(new Response("Password Reset Successfull " , adminService.resetPassWord(resetPasswordDto)),HttpStatus.OK);
     }
 
+    @PostMapping("/sendmail/{emp_id}/{token}")
+    public ResponseEntity<Response> sendMail(@PathVariable int emp_id , @PathVariable String token)
+    {
+        adminService.sendMail(emp_id,token);
+        return new ResponseEntity<>(new Response("",""),HttpStatus.OK);
+    }
+
 }
