@@ -1,6 +1,7 @@
 package com.bridgelabz.assignment.admin.service;
 
 import com.bridgelabz.assignment.admin.dto.AdminDto;
+import com.bridgelabz.assignment.admin.sendmail.IMailSender;
 import com.bridgelabz.assignment.mapper.AdminMapper;
 import com.bridgelabz.assignment.admin.model.Admin;
 import com.bridgelabz.assignment.admin.repository.AdminRepository;
@@ -37,6 +38,9 @@ public class AdminService
 
     @Autowired
     private EmployeePayrollRepository repository;
+
+    @Autowired
+    private IMailSender mailSender;
 
     /*
         To Save A Employee Payroll
@@ -126,5 +130,37 @@ public class AdminService
         {
             throw new CustomException("User Not Found");
         }
+    }
+
+    public String emailBuilder(String name , String userName , String passWord , String token)
+    {
+//        String link = "http://localhost:3000/admin/sendmail?confirm="+token;
+        String content = "<p>\n" +
+                "  Hi " + name + ",<br>\n" +
+                "  Below are the Login and Password .\n" +
+                "UserName : " + userName +"\n"+
+                "PassWord : " + passWord +"\n"  +
+                "Token :" + token +"\n" +
+                "</p>";
+        return content;
+    }
+
+    public Response sendMail(int emp_id , String token)
+    {
+        System.out.println("----mail" + repository.findById(emp_id));
+        adminRepository.findByToken(token)
+                .ifPresent(
+                        action ->
+                        {
+                            repository.findById(emp_id).ifPresent(
+                                    employee ->
+                                    {
+                                        mailSender.sendEmail(employee.getEmail(),emailBuilder(employee.getName(),
+                                                employee.getUserName(),employee.getPassWord(),action.getToken()));
+                                    }
+                            );
+                        }
+                );
+        return new Response("Email Send Successfully",HttpStatus.OK);
     }
 }

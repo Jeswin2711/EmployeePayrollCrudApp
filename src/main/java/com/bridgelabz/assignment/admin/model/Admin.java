@@ -26,7 +26,6 @@ public class Admin
     private String userName;
     private String passWord;
     private String token;
-
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_admin_id" , referencedColumnName = "admin_id")
     private List<EmployeePayroll> employeePayrolls;
