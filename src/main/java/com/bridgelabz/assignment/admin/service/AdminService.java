@@ -1,7 +1,8 @@
 package com.bridgelabz.assignment.admin.service;
 
 import com.bridgelabz.assignment.admin.dto.AdminDto;
-import com.bridgelabz.assignment.admin.sendmail.IMailSender;
+import com.bridgelabz.assignment.admin.jwt.jwtservice.JwtUtils;
+import com.bridgelabz.assignment.sendmail.IMailSender;
 import com.bridgelabz.assignment.mapper.AdminMapper;
 import com.bridgelabz.assignment.admin.model.Admin;
 import com.bridgelabz.assignment.admin.repository.AdminRepository;
@@ -40,8 +41,7 @@ public class AdminService
     private EmployeePayrollRepository repository;
 
     @Autowired
-    private IMailSender mailSender;
-
+    private JwtUtils jwtUtils;
     /*
         To Save A Employee Payroll
      */
@@ -132,35 +132,14 @@ public class AdminService
         }
     }
 
-    public String emailBuilder(String name , String userName , String passWord , String token)
+    public Response login(int id , String token)
     {
-//        String link = "http://localhost:3000/admin/sendmail?confirm="+token;
-        String content = "<p>\n" +
-                "  Hi " + name + ",<br>\n" +
-                "  Below are the Login and Password .\n" +
-                "UserName : " + userName +"\n"+
-                "PassWord : " + passWord +"\n"  +
-                "Token :" + token +"\n" +
-                "</p>";
-        return content;
-    }
-
-    public Response sendMail(int emp_id , String token)
-    {
-        System.out.println("----mail" + repository.findById(emp_id));
-        adminRepository.findByToken(token)
-                .ifPresent(
-                        action ->
-                        {
-                            repository.findById(emp_id).ifPresent(
-                                    employee ->
-                                    {
-                                        mailSender.sendEmail(employee.getEmail(),emailBuilder(employee.getName(),
-                                                employee.getUserName(),employee.getPassWord(),action.getToken()));
-                                    }
-                            );
-                        }
-                );
-        return new Response("Email Send Successfully",HttpStatus.OK);
+        adminRepository.findById(id).ifPresent(
+                admin -> {
+                    jwtUtils.extractUsername(admin.getToken());
+                }
+        );
+        System.out.println(jwtUtils.extractUsername(token));
+        return new Response("Login",HttpStatus.OK);
     }
 }
