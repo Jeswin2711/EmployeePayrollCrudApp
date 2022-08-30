@@ -1,5 +1,6 @@
 package com.bridgelabz.assignment.employee.service;
 
+import com.bridgelabz.assignment.sendmail.MailSenderImpl;
 import com.bridgelabz.assignment.employee.dto.EmployeeAuthenticationDto;
 import com.bridgelabz.assignment.employee.dto.ResetPasswordDto;
 import com.bridgelabz.assignment.employee.model.EmployeePayroll;
@@ -8,7 +9,6 @@ import com.bridgelabz.assignment.exception.CustomException;
 import com.bridgelabz.assignment.utility.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -19,6 +19,9 @@ public class EmployeeService
 {
     @Autowired
     private EmployeePayrollRepository employeePayrollRepository;
+
+    @Autowired
+    private MailSenderImpl mailSender;
 
     public Response loginEmployee(@RequestBody EmployeeAuthenticationDto employeeAuthenticationDto)
     {
@@ -33,20 +36,35 @@ public class EmployeeService
         return new Response("Login Successfull", HttpStatus.OK);
     }
 
-    public Response resetPassWord(ResetPasswordDto resetPasswordDto)
+    public Response resetPassWord(ResetPasswordDto resetPasswordDto,int id)
     {
         EmployeePayroll oldData = null;
-        Optional<EmployeePayroll> optional = employeePayrollRepository.findByPassWord(resetPasswordDto.getOldPassWord());
-        if (optional.isPresent()) {
-            oldData = optional.get();
-            oldData.setPassWord(resetPasswordDto.getNewPassWord());
-            employeePayrollRepository.save(oldData);
+        if(employeePayrollRepository.findById(id).isPresent())
+        {
+            EmployeePayroll employee = employeePayrollRepository.findById(id).get();
+            Optional<EmployeePayroll> optional = employeePayrollRepository.findByPassWord(resetPasswordDto.getOldPassWord());
+            if (optional.isPresent()) {
+                if(employee.getPassWord().equals(resetPasswordDto.getOldPassWord()))
+                {
+                    oldData = optional.get();
+                    oldData.setPassWord(resetPasswordDto.getNewPassWord());
+                    employeePayrollRepository.save(oldData);
+                    mailSender.sendMailToEmployee(optional.get().getId());
+                }
+                else
+                {
+                    throw new CustomException("The OldPassword is Invalid");
+                }
+            }
+            else
+            {
+                throw new CustomException("No User Found With That Password");
+            }
         }
         else
         {
             throw new CustomException("User Not Found");
         }
-
         return new Response("Password Reset Successfull",HttpStatus.OK);
     }
 }

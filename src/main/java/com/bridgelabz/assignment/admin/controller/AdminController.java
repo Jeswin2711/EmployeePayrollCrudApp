@@ -2,7 +2,6 @@ package com.bridgelabz.assignment.admin.controller;
 
 
 import com.bridgelabz.assignment.employee.dto.EmployeePayrollDto;
-import com.bridgelabz.assignment.mapper.AdminMapper;
 import com.bridgelabz.assignment.employee.model.EmployeePayroll;
 import com.bridgelabz.assignment.employee.dto.ResetPasswordDto;
 import com.bridgelabz.assignment.admin.service.AdminService;
@@ -11,12 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 /*
 Controller Class
  */
+
 @RestController
 @RequestMapping("/admin")
 public class AdminController
@@ -24,10 +23,8 @@ public class AdminController
     @Autowired
     private AdminService adminService;
 
-    @Autowired
-    private AdminMapper adminMapper;
     /*
-    Function to save the employeepayroll to Repository by Calling Service
+    Function to save the employee payroll to Repository by Calling Service
      */
 
     @GetMapping
@@ -45,7 +42,7 @@ public class AdminController
         return new ResponseEntity<>(adminService.saveEmployees(adminId,employeePayroll),HttpStatus.OK);
     }
     /*
-    Function to get the employeepayroll by Id from Repository by Calling Service Class
+    Function to get the employeepayroll by ID from Repository by Calling Service Class
      */
     @GetMapping("/employeepayroll/get/{id}")
     public ResponseEntity<Response> getAdminDetailsById(@PathVariable int id)
@@ -54,7 +51,7 @@ public class AdminController
     }
 
     /*
-    Function to get the Employeepayroll list from Repository by Calling Service
+    Function to get the Employee payroll list from Repository by Calling Service
      */
     @GetMapping("/employeepayroll/getall")
     public ResponseEntity<Response> getAllAdmins()
@@ -88,11 +85,11 @@ public class AdminController
         return new ResponseEntity<>(new Response("Password Reset Successfull " , adminService.resetPassWord(resetPasswordDto)),HttpStatus.OK);
     }
 
-    @PostMapping("/sendmail/{emp_id}/{token}")
-    public ResponseEntity<Response> sendMail(@PathVariable int emp_id , @PathVariable String token)
+    @PostMapping("/login/{id}/{token}")
+    public ResponseEntity<Response> loginAdmin(@PathVariable int id ,
+                                               @PathVariable String token)
     {
-        adminService.sendMail(emp_id,token);
-        return new ResponseEntity<>(new Response("",""),HttpStatus.OK);
+        adminService.login(id,token);
+        return new ResponseEntity<>(new Response("Login Successfull",HttpStatus.OK),HttpStatus.OK);
     }
-
 }

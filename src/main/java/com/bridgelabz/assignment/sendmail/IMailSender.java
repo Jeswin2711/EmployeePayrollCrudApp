@@ -1,4 +1,4 @@
-package com.bridgelabz.assignment.admin.sendmail;
+package com.bridgelabz.assignment.sendmail;
 
 public interface IMailSender
 {
