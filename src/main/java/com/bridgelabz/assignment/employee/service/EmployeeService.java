@@ -1,7 +1,7 @@
 package com.bridgelabz.assignment.employee.service;
 
 import com.bridgelabz.assignment.sendmail.MailSenderImpl;
-import com.bridgelabz.assignment.employee.dto.EmployeeAuthenticationDto;
+import com.bridgelabz.assignment.employee.dto.AuthenticationDto;
 import com.bridgelabz.assignment.employee.dto.ResetPasswordDto;
 import com.bridgelabz.assignment.employee.model.EmployeePayroll;
 import com.bridgelabz.assignment.employee.repository.EmployeePayrollRepository;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Optional;
-import java.util.Random;
 import java.util.UUID;
 
 @Service
@@ -25,13 +24,13 @@ public class EmployeeService
     @Autowired
     private MailSenderImpl mailSender;
 
-    public Response loginEmployee(@RequestBody EmployeeAuthenticationDto employeeAuthenticationDto)
+    public Response loginEmployee(@RequestBody AuthenticationDto authenticationDto)
     {
-        employeePayrollRepository.findByEmail(employeeAuthenticationDto.getUserName())
+        employeePayrollRepository.findByEmail(authenticationDto.getUserName())
                 .orElseThrow(() -> {
                     throw new CustomException("You are Not Authorized");
                 });
-        employeePayrollRepository.findByPassWord(employeeAuthenticationDto.getPassWord())
+        employeePayrollRepository.findByPassWord(authenticationDto.getPassWord())
                 .orElseThrow(() -> {
                     throw new CustomException("You are Not Authorized");
                 });

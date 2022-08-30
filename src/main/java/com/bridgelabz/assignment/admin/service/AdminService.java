@@ -2,6 +2,7 @@ package com.bridgelabz.assignment.admin.service;
 
 import com.bridgelabz.assignment.admin.dto.AdminDto;
 import com.bridgelabz.assignment.admin.jwt.jwtservice.JwtUtils;
+import com.bridgelabz.assignment.employee.dto.AuthenticationDto;
 import com.bridgelabz.assignment.sendmail.IMailSender;
 import com.bridgelabz.assignment.mapper.AdminMapper;
 import com.bridgelabz.assignment.admin.model.Admin;
@@ -17,6 +18,7 @@ import com.bridgelabz.assignment.utility.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
@@ -131,20 +133,17 @@ public class AdminService
         }
     }
 
-    public Response login(int id , String token)
+    public Response login(String username , String password)
     {
-        adminRepository.findById(id).ifPresent(
-                admin -> {
-                    if (admin.getUserName().equals(jwtUtils.extractUsername(token)))
-                    {
-                        System.out.println("--Authorized User---");
-                    }
-                    else
-                    {
-                        throw new CustomException("Invalid Token Or ID");
-                    }
-                }
-        );
+        Admin adminDetails = adminRepository.findByUserName(username).get();
+        if(adminDetails.getPassWord().equals(password))
+        {
+                System.out.println("-------");
+        }
+        else
+        {
+            throw new CustomException("Admin UserName Password Not Found");
+        }
         return new Response("Login Successfull for Admin",HttpStatus.OK);
     }
 }
