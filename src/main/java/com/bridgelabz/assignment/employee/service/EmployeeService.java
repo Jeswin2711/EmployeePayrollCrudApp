@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Optional;
+import java.util.Random;
+import java.util.UUID;
 
 @Service
 public class EmployeeService
@@ -49,7 +51,7 @@ public class EmployeeService
                     oldData = optional.get();
                     oldData.setPassWord(resetPasswordDto.getNewPassWord());
                     employeePayrollRepository.save(oldData);
-                    mailSender.sendMailToEmployee(optional.get().getId());
+                    mailSender.sendResetPassWordMailToEmployee(optional.get().getId());
                 }
                 else
                 {
@@ -66,5 +68,23 @@ public class EmployeeService
             throw new CustomException("User Not Found");
         }
         return new Response("Password Reset Successfull",HttpStatus.OK);
+    }
+
+
+    public Response forgotPassWord(int id)
+    {
+        UUID randomUUID = UUID.randomUUID();
+        String randomPassWord = randomUUID.toString().replaceAll("_", "");
+        employeePayrollRepository.findById(id)
+                        .ifPresent(
+                                action ->
+                                {
+                                    action.setPassWord(randomPassWord);
+                                    employeePayrollRepository.save(action);
+                                    mailSender.sendForgotPassWordMailToEmployee(action.getId(),randomPassWord);
+                                }
+                        );
+        System.out.println(randomPassWord);
+        return new Response("Forgot Password Request Accepted",HttpStatus.OK);
     }
 }

@@ -42,4 +42,10 @@ public class EmployeeController
     {
         return new ResponseEntity<>(employeeService.resetPassWord(resetPasswordDto,id),HttpStatus.OK);
     }
+
+    @PostMapping("/forgot-password/{id}")
+    public ResponseEntity<Response> forgotPassword(@PathVariable int id)
+    {
+        return new ResponseEntity<>(employeeService.forgotPassWord(id),HttpStatus.OK);
+    }
 }

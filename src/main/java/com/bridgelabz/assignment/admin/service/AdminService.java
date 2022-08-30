@@ -50,7 +50,6 @@ public class AdminService
         adminRepository.findById(adminId)
                 .map(
                         admin -> {
-                            admin.setId(adminId);
                             for(EmployeePayroll payroll : employeePayrolls)
                             {
                                 repository.findByEmail(payroll.getEmail())
@@ -136,10 +135,16 @@ public class AdminService
     {
         adminRepository.findById(id).ifPresent(
                 admin -> {
-                    jwtUtils.extractUsername(admin.getToken());
+                    if (admin.getUserName().equals(jwtUtils.extractUsername(token)))
+                    {
+                        System.out.println("--Authorized User---");
+                    }
+                    else
+                    {
+                        throw new CustomException("Invalid Token Or ID");
+                    }
                 }
         );
-        System.out.println(jwtUtils.extractUsername(token));
-        return new Response("Login",HttpStatus.OK);
+        return new Response("Login Successfull for Admin",HttpStatus.OK);
     }
 }
