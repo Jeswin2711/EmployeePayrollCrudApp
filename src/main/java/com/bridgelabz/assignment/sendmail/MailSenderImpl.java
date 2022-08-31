@@ -11,6 +11,9 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import javax.mail.internet.MimeMessage;
 
+/*
+    MailSenderImpl class acts as a service which implements IMailSender Interface
+ */
 @Service
 public class MailSenderImpl implements IMailSender{
 
@@ -20,6 +23,9 @@ public class MailSenderImpl implements IMailSender{
     @Autowired
     private EmployeePayrollRepository repository;
 
+    /*
+        function to send mail
+     */
     @Override
     @Async
     public void sendEmail(String to, String content) {
@@ -40,6 +46,9 @@ public class MailSenderImpl implements IMailSender{
         }
     }
 
+    /*
+        function to send mail in case of employee reset password
+     */
     public Response sendResetPassWordMailToEmployee(int emp_id)
     {
         repository.findById(emp_id).ifPresent(
@@ -52,6 +61,9 @@ public class MailSenderImpl implements IMailSender{
         return new Response("Email Send Successfully", HttpStatus.OK);
     }
 
+    /*
+        function to create a content for the body in case of employee reset password
+     */
     public String emailBuilder(String name , String userName)
     {
         String content = "<html><body>" +
@@ -60,6 +72,9 @@ public class MailSenderImpl implements IMailSender{
         return content;
     }
 
+    /*
+        function to send mail for Employee Authentication
+     */
     public Response sendAuthMailToEmployee(int emp_id)
     {
         String resetPassWordLink = "http://localhost:3000/employee/reset-password"+emp_id;
@@ -78,6 +93,9 @@ public class MailSenderImpl implements IMailSender{
         return new Response("Email Send Successfully", HttpStatus.OK);
     }
 
+    /*
+        function to send mail in case of employee forgot password
+     */
     public Response sendForgotPassWordMailToEmployee(int id , String randomPassWord)
     {
         String toEmail = repository.findById(id).get().getUserName();

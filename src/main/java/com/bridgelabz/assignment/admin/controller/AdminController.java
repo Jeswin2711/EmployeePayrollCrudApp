@@ -78,6 +78,9 @@ public class AdminController
         return new ResponseEntity<>(new Response("Employee Payroll Updated for Id : "+id,adminService.updateEmployeeDetail(adminId,id,employeePayrollDto)),HttpStatus.OK);
     }
 
+    /*
+        Function to reset a Admin Password
+     */
     @PostMapping("/reset-password")
     public ResponseEntity<Response> resetAdminPassWord(@RequestBody ResetPasswordDto resetPasswordDto)
     {

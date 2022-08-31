@@ -23,8 +23,11 @@ import java.io.IOException;
 
 @Component
 public class JwtFilters extends OncePerRequestFilter {
+
+
     @Autowired
     private AdminDetails adminDetails;
+
     @Autowired
     private JwtUtils jwtToken;
 
@@ -45,7 +48,7 @@ public class JwtFilters extends OncePerRequestFilter {
             username = jwtToken.extractUsername(jwt);
         }
 
-        if (username != null && SecurityContextHolder.getContext().getAuthentication()== null) {
+        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
             UserDetails userDetails = adminDetails.loadUserByUsername(username);
 

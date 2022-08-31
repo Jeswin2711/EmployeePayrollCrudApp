@@ -115,6 +115,9 @@ public class AdminService
             return Utility.getResponse("Employee Payroll Updated Successfully" , HttpStatus.OK.value());
     }
 
+    /*
+        To reset Admin Password
+     */
     public Response resetPassWord(ResetPasswordDto resetPasswordDto)
     {
         Admin oldData = null;
@@ -132,6 +135,9 @@ public class AdminService
         }
     }
 
+    /*
+        Function for Admin Login
+     */
     public Response login(String username , String password)
     {
         Admin adminDetails = adminRepository.findByUserName(username).get();

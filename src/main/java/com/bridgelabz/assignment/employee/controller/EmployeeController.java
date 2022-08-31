@@ -36,6 +36,10 @@ public class EmployeeController
         return new ResponseEntity<>(employeeService.resetPassWord(resetPasswordDto,id),HttpStatus.OK);
     }
 
+    /*
+        Api for forgot password
+     */
+
     @PostMapping("/forgot-password/{id}")
     public ResponseEntity<Response> forgotPassword(@PathVariable int id)
     {
