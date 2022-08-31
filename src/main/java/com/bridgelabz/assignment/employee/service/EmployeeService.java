@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
-
 import java.util.Optional;
 import java.util.UUID;
 
@@ -83,7 +82,6 @@ public class EmployeeService
                                     mailSender.sendForgotPassWordMailToEmployee(action.getId(),randomPassWord);
                                 }
                         );
-        System.out.println(randomPassWord);
         return new Response("Forgot Password Request Accepted",HttpStatus.OK);
     }
 }
