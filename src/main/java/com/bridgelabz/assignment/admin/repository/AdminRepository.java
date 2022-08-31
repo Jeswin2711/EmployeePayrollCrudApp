@@ -13,5 +13,4 @@ public interface AdminRepository extends JpaRepository<Admin, Integer>
 
     Optional<Admin> findByPassWord(String passWord);
 
-    Optional<Admin> findByToken(String token);
 }

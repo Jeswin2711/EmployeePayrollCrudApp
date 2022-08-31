@@ -17,6 +17,7 @@ import java.util.List;
 /*
 A Model Class for Admin
  */
+
 public class Admin
 {
     @Id

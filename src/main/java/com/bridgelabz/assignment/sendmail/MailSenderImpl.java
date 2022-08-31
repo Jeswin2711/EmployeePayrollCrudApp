@@ -9,7 +9,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-
 import javax.mail.internet.MimeMessage;
 
 @Service
@@ -41,16 +40,7 @@ public class MailSenderImpl implements IMailSender{
         }
     }
 
-    public String emailBuilder(String name , String userName)
-    {
-//        String link = "http://localhost:3000/admin/sendmail?confirm="+token;
-        String content = "<html><body>" +
-                "<div> Hi "+name+"</div>"+
-                "<div>Password Reset Successfully Completed for Username : "+ userName +"</div></body></html>";
-        return content;
-    }
-
-    public Response sendMailToEmployee(int emp_id)
+    public Response sendResetPassWordMailToEmployee(int emp_id)
     {
         repository.findById(emp_id).ifPresent(
                 employee ->
@@ -59,6 +49,44 @@ public class MailSenderImpl implements IMailSender{
                             employee.getUserName()));
                 }
         );
+        return new Response("Email Send Successfully", HttpStatus.OK);
+    }
+
+    public String emailBuilder(String name , String userName)
+    {
+        String content = "<html><body>" +
+                "<div> Hi "+ name +"</div>"+
+                "<div>Password Reset Successfully Completed for Username : "+ userName +"</div></body></html>";
+        return content;
+    }
+
+    public Response sendAuthMailToEmployee(int emp_id)
+    {
+        String resetPassWordLink = "http://localhost:3000/employee/reset-password"+emp_id;
+        String toEmail = repository.findById(emp_id).get().getUserName();
+        String content = "<html><body>" +
+                "<div> Hi "+ toEmail +"</div>"+
+                "<div>Below are the Username and Credentials for your Login>\n" +
+                "<p>\n" +
+                "Username : " + toEmail +
+                "Password : " + repository.findById(emp_id).get().getPassWord() +
+                "if you need to Change the password use the below link\n"+
+                resetPassWordLink +
+                "</p></div>"+
+                "</body></html>";
+        sendEmail(toEmail,content);
+        return new Response("Email Send Successfully", HttpStatus.OK);
+    }
+
+    public Response sendForgotPassWordMailToEmployee(int id , String randomPassWord)
+    {
+        String toEmail = repository.findById(id).get().getUserName();
+        String content = "<html><body>" +
+                "<div> Hi "+ toEmail +"</div>"+
+                "<div>Here is the Auto Generated Password : "+ randomPassWord +"</div>" +
+                "<div>Kindly Change the password if you need in the Specified Link</div>"+
+                "</body></html>";
+        sendEmail(toEmail,content);
         return new Response("Email Send Successfully", HttpStatus.OK);
     }
 }

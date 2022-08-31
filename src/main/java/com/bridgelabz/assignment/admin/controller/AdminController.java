@@ -1,6 +1,7 @@
 package com.bridgelabz.assignment.admin.controller;
 
 
+import com.bridgelabz.assignment.employee.dto.AuthenticationDto;
 import com.bridgelabz.assignment.employee.dto.EmployeePayrollDto;
 import com.bridgelabz.assignment.employee.model.EmployeePayroll;
 import com.bridgelabz.assignment.employee.dto.ResetPasswordDto;
@@ -85,11 +86,11 @@ public class AdminController
         return new ResponseEntity<>(new Response("Password Reset Successfull " , adminService.resetPassWord(resetPasswordDto)),HttpStatus.OK);
     }
 
-    @PostMapping("/login/{id}/{token}")
-    public ResponseEntity<Response> loginAdmin(@PathVariable int id ,
-                                               @PathVariable String token)
+    @PostMapping("/login")
+    public ResponseEntity<Response> loginAdmin(@RequestParam (name = "username") String username ,
+                                               @RequestParam (name = "password") String password)
     {
-        adminService.login(id,token);
+        adminService.login(username,password);
         return new ResponseEntity<>(new Response("Login Successfull",HttpStatus.OK),HttpStatus.OK);
     }
 }

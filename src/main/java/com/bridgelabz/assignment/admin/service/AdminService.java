@@ -2,6 +2,7 @@ package com.bridgelabz.assignment.admin.service;
 
 import com.bridgelabz.assignment.admin.dto.AdminDto;
 import com.bridgelabz.assignment.admin.jwt.jwtservice.JwtUtils;
+import com.bridgelabz.assignment.employee.dto.AuthenticationDto;
 import com.bridgelabz.assignment.sendmail.IMailSender;
 import com.bridgelabz.assignment.mapper.AdminMapper;
 import com.bridgelabz.assignment.admin.model.Admin;
@@ -12,11 +13,13 @@ import com.bridgelabz.assignment.exception.CustomException;
 import com.bridgelabz.assignment.mapper.EmployeePayrollMapper;
 import com.bridgelabz.assignment.employee.model.EmployeePayroll;
 import com.bridgelabz.assignment.employee.repository.EmployeePayrollRepository;
+import com.bridgelabz.assignment.sendmail.MailSenderImpl;
 import com.bridgelabz.assignment.utility.Response;
 import com.bridgelabz.assignment.utility.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
@@ -41,7 +44,8 @@ public class AdminService
     private EmployeePayrollRepository repository;
 
     @Autowired
-    private JwtUtils jwtUtils;
+    private MailSenderImpl mailSender;
+
     /*
         To Save A Employee Payroll
      */
@@ -50,16 +54,16 @@ public class AdminService
         adminRepository.findById(adminId)
                 .map(
                         admin -> {
-                            admin.setId(adminId);
                             for(EmployeePayroll payroll : employeePayrolls)
                             {
                                 repository.findByEmail(payroll.getEmail())
                                         .ifPresent(employeePayroll -> {
                                             throw new CustomException("Employee Payroll Email Already Present in the Admin ID :" + adminId);
                                         });
+                                admin.getEmployeePayrolls().add(payroll);
+                                repository.save(payroll);
+                                mailSender.sendAuthMailToEmployee(payroll.getId());
                             }
-                            admin.getEmployeePayrolls().addAll(employeePayrolls);
-                            repository.saveAll(employeePayrolls);
                             return admin;
                         }
                 ).orElseThrow(
@@ -132,14 +136,17 @@ public class AdminService
         }
     }
 
-    public Response login(int id , String token)
+    public Response login(String username , String password)
     {
-        adminRepository.findById(id).ifPresent(
-                admin -> {
-                    jwtUtils.extractUsername(admin.getToken());
-                }
-        );
-        System.out.println(jwtUtils.extractUsername(token));
-        return new Response("Login",HttpStatus.OK);
+        Admin adminDetails = adminRepository.findByUserName(username).get();
+        if(adminDetails.getPassWord().equals(password))
+        {
+                System.out.println("-------");
+        }
+        else
+        {
+            throw new CustomException("Admin UserName Password Not Found");
+        }
+        return new Response("Login Successfull for Admin",HttpStatus.OK);
     }
 }
