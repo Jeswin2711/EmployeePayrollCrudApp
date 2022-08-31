@@ -1,7 +1,5 @@
 package com.bridgelabz.assignment.admin.controller;
 
-
-import com.bridgelabz.assignment.employee.dto.AuthenticationDto;
 import com.bridgelabz.assignment.employee.dto.EmployeePayrollDto;
 import com.bridgelabz.assignment.employee.model.EmployeePayroll;
 import com.bridgelabz.assignment.employee.dto.ResetPasswordDto;
