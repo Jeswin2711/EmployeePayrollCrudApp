@@ -13,6 +13,7 @@ import com.bridgelabz.assignment.exception.CustomException;
 import com.bridgelabz.assignment.mapper.EmployeePayrollMapper;
 import com.bridgelabz.assignment.employee.model.EmployeePayroll;
 import com.bridgelabz.assignment.employee.repository.EmployeePayrollRepository;
+import com.bridgelabz.assignment.sendmail.MailSenderImpl;
 import com.bridgelabz.assignment.utility.Response;
 import com.bridgelabz.assignment.utility.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,8 @@ public class AdminService
     private EmployeePayrollRepository repository;
 
     @Autowired
-    private JwtUtils jwtUtils;
+    private MailSenderImpl mailSender;
+
     /*
         To Save A Employee Payroll
      */
@@ -58,9 +60,10 @@ public class AdminService
                                         .ifPresent(employeePayroll -> {
                                             throw new CustomException("Employee Payroll Email Already Present in the Admin ID :" + adminId);
                                         });
+                                admin.getEmployeePayrolls().add(payroll);
+                                repository.save(payroll);
+                                mailSender.sendAuthMailToEmployee(payroll.getId());
                             }
-                            admin.getEmployeePayrolls().addAll(employeePayrolls);
-                            repository.saveAll(employeePayrolls);
                             return admin;
                         }
                 ).orElseThrow(
