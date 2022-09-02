@@ -1,4 +1,4 @@
-package com.bridgelabz.assignment.admin.jwt.jwtservice;
+package com.bridgelabz.assignment.jwt.jwtservice;
 
 import com.bridgelabz.assignment.admin.model.Admin;
 import io.jsonwebtoken.Claims;

@@ -1,6 +1,6 @@
-package com.bridgelabz.assignment.admin.jwt.filter;
+package com.bridgelabz.assignment.jwt.filter;
 
-import com.bridgelabz.assignment.admin.jwt.jwtservice.JwtUtils;
+import com.bridgelabz.assignment.jwt.jwtservice.JwtUtils;
 import com.bridgelabz.assignment.admin.repository.AdminRepository;
 import com.bridgelabz.assignment.admin.security.AdminDetails;
 import com.bridgelabz.assignment.exception.CustomException;

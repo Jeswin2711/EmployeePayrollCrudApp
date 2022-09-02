@@ -1,6 +1,6 @@
 package com.bridgelabz.assignment.configuration;
 
-import com.bridgelabz.assignment.admin.jwt.filter.JwtFilters;
+import com.bridgelabz.assignment.jwt.filter.JwtFilters;
 import com.bridgelabz.assignment.admin.security.AdminDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

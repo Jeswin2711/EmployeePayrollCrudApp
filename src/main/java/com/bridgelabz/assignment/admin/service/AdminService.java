@@ -1,8 +1,7 @@
 package com.bridgelabz.assignment.admin.service;
 
 import com.bridgelabz.assignment.admin.dto.AdminDto;
-import com.bridgelabz.assignment.admin.jwt.filter.JwtFilters;
-import com.bridgelabz.assignment.admin.jwt.jwtservice.JwtUtils;
+import com.bridgelabz.assignment.jwt.jwtservice.JwtUtils;
 import com.bridgelabz.assignment.mapper.AdminMapper;
 import com.bridgelabz.assignment.admin.model.Admin;
 import com.bridgelabz.assignment.admin.repository.AdminRepository;
@@ -20,7 +19,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
