@@ -40,9 +40,9 @@ public class EmployeeController
         Api for forgot password
      */
 
-    @PostMapping("/forgot-password/{id}")
-    public ResponseEntity<Response> forgotPassword(@PathVariable int id)
+    @PostMapping("/forgot-password/{id}/{username}")
+    public ResponseEntity<Response> forgotPassword(@PathVariable int id,@PathVariable String username)
     {
-        return new ResponseEntity<>(employeeService.forgotPassWord(id),HttpStatus.OK);
+        return new ResponseEntity<>(employeeService.forgotPassWord(id,username),HttpStatus.OK);
     }
 }
