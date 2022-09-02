@@ -15,6 +15,4 @@ public interface EmployeePayrollRepository extends JpaRepository<EmployeePayroll
 
     Optional<EmployeePayroll> findByPassWord(String passWord);
 
-    Optional<EmployeePayroll> findByUserName(String userName);
-
 }

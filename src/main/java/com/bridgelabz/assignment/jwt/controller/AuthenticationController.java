@@ -1,8 +1,8 @@
-package com.bridgelabz.assignment.admin.jwt.controller;
+package com.bridgelabz.assignment.jwt.controller;
 
-import com.bridgelabz.assignment.admin.jwt.jwtmodel.AuthorizationRequest;
-import com.bridgelabz.assignment.admin.jwt.jwtmodel.AuthorizationResponse;
-import com.bridgelabz.assignment.admin.jwt.jwtservice.JwtUtils;
+import com.bridgelabz.assignment.jwt.jwtmodel.AuthorizationRequest;
+import com.bridgelabz.assignment.jwt.jwtmodel.AuthorizationResponse;
+import com.bridgelabz.assignment.jwt.jwtservice.JwtUtils;
 import com.bridgelabz.assignment.admin.model.Admin;
 import com.bridgelabz.assignment.admin.repository.AdminRepository;
 import com.bridgelabz.assignment.admin.security.AdminDetails;

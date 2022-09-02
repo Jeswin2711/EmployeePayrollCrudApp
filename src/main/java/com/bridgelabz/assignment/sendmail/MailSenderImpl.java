@@ -35,8 +35,8 @@ public class MailSenderImpl implements IMailSender{
                     new MimeMessageHelper(mimeMessage,"utf-8");
             mimeMessageHelper.setTo(to);
             mimeMessageHelper.setText(content,true);
-            mimeMessageHelper.setSubject("Password Reset");
-            mimeMessageHelper.setFrom("admin@company.com");
+            mimeMessageHelper.setSubject("Mail From Admin 📩");
+            mimeMessageHelper.setFrom("admin@jes.com");
             mailSender.send(mimeMessage);
         }
         catch (Exception e)

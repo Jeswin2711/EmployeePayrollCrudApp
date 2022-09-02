@@ -1,4 +1,4 @@
-package com.bridgelabz.assignment.admin.jwt.jwtservice;
+package com.bridgelabz.assignment.jwt.jwtservice;
 
 import com.bridgelabz.assignment.admin.model.Admin;
 import io.jsonwebtoken.Claims;
@@ -19,7 +19,6 @@ import java.util.function.Function;
 @Service
 public class JwtUtils {
 
-    Admin admin = new Admin();
     @Value("${SECRET_KEY}")
     private String SECRET_KEY;
 

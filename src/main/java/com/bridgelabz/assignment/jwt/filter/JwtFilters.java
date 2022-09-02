@@ -1,6 +1,6 @@
-package com.bridgelabz.assignment.admin.jwt.filter;
+package com.bridgelabz.assignment.jwt.filter;
 
-import com.bridgelabz.assignment.admin.jwt.jwtservice.JwtUtils;
+import com.bridgelabz.assignment.jwt.jwtservice.JwtUtils;
 import com.bridgelabz.assignment.admin.repository.AdminRepository;
 import com.bridgelabz.assignment.admin.security.AdminDetails;
 import com.bridgelabz.assignment.exception.CustomException;
@@ -36,7 +36,7 @@ public class JwtFilters extends OncePerRequestFilter {
     private JwtUtils jwtToken;
 
     /*
-        An overrride class which helps us to do the validation operation
+        An override class which helps us to do the validation operation
      */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
@@ -69,7 +69,6 @@ public class JwtFilters extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
             }
         }
-        System.out.println(request+"----------"+response);
         chain.doFilter(request,response);
     }
 }
