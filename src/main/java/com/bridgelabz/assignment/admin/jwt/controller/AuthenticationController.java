@@ -70,7 +70,8 @@ public class AuthenticationController
         adminRepository.save(
                 new Admin(
                         userDetailsService.getUserName(),
-                        userDetailsService.getPassWord()
+                        userDetailsService.getPassWord(),
+                        jwtToken
                 )
         );
 

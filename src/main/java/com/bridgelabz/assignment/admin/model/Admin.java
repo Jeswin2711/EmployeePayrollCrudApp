@@ -20,14 +20,20 @@ public class Admin
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "admin_id")
     private int id;
+
     private String userName;
+
     private String passWord;
+
+    private String token;
+
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_admin_id" , referencedColumnName = "admin_id")
     private List<EmployeePayroll> employeePayrolls;
 
-    public Admin(String userName, String passWord) {
+    public Admin(String userName, String passWord, String token) {
         this.userName = userName;
         this.passWord = passWord;
+        this.token = token;
     }
 }

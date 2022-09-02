@@ -1,7 +1,9 @@
 package com.bridgelabz.assignment.admin.jwt.filter;
 
 import com.bridgelabz.assignment.admin.jwt.jwtservice.JwtUtils;
+import com.bridgelabz.assignment.admin.repository.AdminRepository;
 import com.bridgelabz.assignment.admin.security.AdminDetails;
+import com.bridgelabz.assignment.exception.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,6 +26,8 @@ import java.io.IOException;
 @Component
 public class JwtFilters extends OncePerRequestFilter {
 
+    @Autowired
+    private AdminRepository adminRepository;
 
     @Autowired
     private AdminDetails adminDetails;
@@ -36,22 +40,26 @@ public class JwtFilters extends OncePerRequestFilter {
      */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
-            throws ServletException, IOException {
-
+            throws ServletException, IOException , CustomException{
         final String authorizationHeader = request.getHeader("Authorization");
-
         String username = null;
         String jwt = null;
-
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             jwt = authorizationHeader.substring(7);
             username = jwtToken.extractUsername(jwt);
+            if(request.getQueryString()!=null)
+            {
+                final String params = request.getQueryString();
+                String loginName = params.substring(9,params.indexOf("&"));
+                if(!loginName.equals(username))
+                {
+                    throw new CustomException("Token is Invalid for this Username");
+                }
+            }
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
             UserDetails userDetails = adminDetails.loadUserByUsername(username);
-
             if (jwtToken.validateToken(jwt, userDetails)) {
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
