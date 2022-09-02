@@ -46,12 +46,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeRequests().antMatchers("/admin/authenticate",
-                        "/admin/login","/employee/login",
+        http.csrf().disable().authorizeRequests()
+                .antMatchers("/admin/authenticate","/admin/employeepayroll/getall","/employee/login",
                         "/employee/reset-password/{id}","/employee/forgot-password/{id}")
                 .permitAll().anyRequest().authenticated()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jwtFilters, UsernamePasswordAuthenticationFilter.class);
-
     }
 }

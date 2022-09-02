@@ -51,6 +51,7 @@ public class AuthenticationController
             );
             userDetailsService.setUserName(authorizationRequest.getUserName());
             userDetailsService.setPassWord(authorizationRequest.getPassWord());
+
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                     authorizationRequest.getUserName(),
                     authorizationRequest.getPassWord()

@@ -1,6 +1,8 @@
 package com.bridgelabz.assignment.admin.service;
 
 import com.bridgelabz.assignment.admin.dto.AdminDto;
+import com.bridgelabz.assignment.admin.jwt.filter.JwtFilters;
+import com.bridgelabz.assignment.admin.jwt.jwtservice.JwtUtils;
 import com.bridgelabz.assignment.mapper.AdminMapper;
 import com.bridgelabz.assignment.admin.model.Admin;
 import com.bridgelabz.assignment.admin.repository.AdminRepository;
@@ -18,6 +20,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,11 +46,22 @@ public class AdminService
     @Autowired
     private MailSenderImpl mailSender;
 
+    @Autowired
+    private JwtUtils jwtUtils;
+
+    @Autowired
+    private HttpServletRequest httpServlet;
+
     /*
         To Save A Employee Payroll
      */
     public Response saveEmployees(int adminId , List<EmployeePayroll> employeePayrolls)
     {
+        String authorizationHeader = httpServlet.getHeader("Authorization");
+        String jwt = authorizationHeader.substring(7);
+        String userName = jwtUtils.extractUsername(jwt);
+        if(adminRepository.findById(adminId).get().getUserName().equals(userName))
+        {
         adminRepository.findById(adminId)
                 .map(
                         admin -> {
@@ -66,7 +81,11 @@ public class AdminService
                         () ->
                         {
                             throw new CustomException("Admin Not Found");
-                        });
+                        });}
+        else
+        {
+            throw new CustomException("ID and Token Not Matching");
+        }
         return Utility.getResponse("Employee Payroll Added", HttpStatus.OK);
     }
 
@@ -89,12 +108,19 @@ public class AdminService
     }
 
     /*
-        To Delete A Employee Payroll in the Repository
+        To Delete A Admin in the Repository
      */
     public Response deleteAdmin(int id) {
-        System.out.println("-______" + adminRepository.findAll());
         adminRepository.deleteById(id);
         return Utility.getResponse("Admin Deleted Successfully",HttpStatus.OK);
+    }
+
+    /*
+        To Delete A Employee Payroll in the Employee Repository
+     */
+    public Response deleteEmployee(int id) {
+        repository.deleteById(id);
+        return Utility.getResponse("Employee Payroll Deleted Successfully",HttpStatus.OK);
     }
 
     /*
@@ -115,6 +141,9 @@ public class AdminService
             return Utility.getResponse("Employee Payroll Updated Successfully" , HttpStatus.OK.value());
     }
 
+    /*
+        To reset Admin Password
+     */
     public Response resetPassWord(ResetPasswordDto resetPasswordDto)
     {
         Admin oldData = null;
@@ -132,6 +161,9 @@ public class AdminService
         }
     }
 
+    /*
+        Function for Admin Login
+     */
     public Response login(String username , String password)
     {
         Admin adminDetails = adminRepository.findByUserName(username).get();

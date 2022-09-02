@@ -69,19 +69,33 @@ public class EmployeeService
     }
 
 
-    public Response forgotPassWord(int id)
+    public Response forgotPassWord(int id,String username)
     {
         UUID randomUUID = UUID.randomUUID();
         String randomPassWord = randomUUID.toString().replaceAll("_", "");
-        employeePayrollRepository.findById(id)
-                        .ifPresent(
-                                action ->
+        if(employeePayrollRepository.findById(id).isPresent()) {
+            employeePayrollRepository.findById(id)
+                    .ifPresent(
+                            action ->
+                            {
+                                if(action.getUserName().equals(username))
                                 {
                                     action.setPassWord(randomPassWord);
                                     employeePayrollRepository.save(action);
-                                    mailSender.sendForgotPassWordMailToEmployee(action.getId(),randomPassWord);
+                                    mailSender.sendForgotPassWordMailToEmployee(action.getId(), randomPassWord);
                                 }
-                        );
+                                else
+                                {
+                                    throw new CustomException("Invalid Username");
+                                }
+                            }
+                    );
+        }
+        else
+        {
+            throw new CustomException("Employee ID not Found");
+        }
+
         return new Response("Forgot Password Request Accepted",HttpStatus.OK);
     }
 }

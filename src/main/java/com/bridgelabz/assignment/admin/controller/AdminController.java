@@ -59,12 +59,21 @@ public class AdminController
     }
 
     /*
-    Function to delete the Employee payroll from Repository by Calling Service
+    Function to delete the Admin from Repository by Calling Service
      */
-    @DeleteMapping("/employeepayroll/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Response> deleteAdminById(@PathVariable int id)
     {
         return new ResponseEntity<>(new Response("Deleting Admin", adminService.deleteAdmin(id)),HttpStatus.OK);
+    }
+
+    /*
+    Function to delete the Employee payroll from Repository by Calling Service
+     */
+    @DeleteMapping("/employeepayroll/delete/{id}")
+    public ResponseEntity<Response> deleteEmployeeById(@PathVariable int id)
+    {
+        return new ResponseEntity<>(new Response("Deleting Employee", adminService.deleteEmployee(id)),HttpStatus.OK);
     }
 
     /*
@@ -78,6 +87,9 @@ public class AdminController
         return new ResponseEntity<>(new Response("Employee Payroll Updated for Id : "+id,adminService.updateEmployeeDetail(adminId,id,employeePayrollDto)),HttpStatus.OK);
     }
 
+    /*
+        Function to reset a Admin Password
+     */
     @PostMapping("/reset-password")
     public ResponseEntity<Response> resetAdminPassWord(@RequestBody ResetPasswordDto resetPasswordDto)
     {

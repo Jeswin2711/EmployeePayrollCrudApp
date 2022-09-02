@@ -21,10 +21,11 @@ public class AdminDetails implements UserDetailsService {
     private String userName;
     private String passWord;
 
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
+        System.out.println("Username"+username);
+        System.out.println("UserName"+userName);
         if(username.equals(userName))
         {
             return new User(username,passWord,new ArrayList<>());
