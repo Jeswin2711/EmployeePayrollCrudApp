@@ -7,5 +7,6 @@ import lombok.Data;
 public class AuthenticationDto
 {
     private String userName;
+
     private String passWord;
 }

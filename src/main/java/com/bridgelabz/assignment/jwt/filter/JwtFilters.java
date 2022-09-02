@@ -36,7 +36,7 @@ public class JwtFilters extends OncePerRequestFilter {
     private JwtUtils jwtToken;
 
     /*
-        An overrride class which helps us to do the validation operation
+        An override class which helps us to do the validation operation
      */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
@@ -69,7 +69,6 @@ public class JwtFilters extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
             }
         }
-        System.out.println(request+"----------"+response);
         chain.doFilter(request,response);
     }
 }

@@ -19,7 +19,6 @@ import java.util.function.Function;
 @Service
 public class JwtUtils {
 
-    Admin admin = new Admin();
     @Value("${SECRET_KEY}")
     private String SECRET_KEY;
 
